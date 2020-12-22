@@ -1,5 +1,9 @@
 # DjangoProject
 
+여기에는 전체 코드가 있습니당.
+
+---
+
 > 1. ~~[Django프로젝트 "01" (회원가입, 로그인 ~ )](https://github.com/minchan5224/TIL/blob/main/Python/Django/Django_24.md)~~ 다시..
 >
 > 2. [Django프로젝트 "02" (회원가입, 로그인 ~ )](https://github.com/minchan5224/TIL/blob/main/Python/Django/Django_25.md)
