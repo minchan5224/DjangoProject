@@ -1,0 +1,76 @@
+{% load static %}
+
+
+<style>
+    .container {
+        padding: 0;
+        margin: 0, auto;
+    }
+    
+    .container a {
+        width: 45%;
+        max-width: 250px;
+    }
+
+    .container div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 1rem;
+        width: 100%;
+    }
+    
+    .container img {
+        width: 100%;
+        border-radius: 1rem;
+        opacity: 1.0;
+    }
+    
+    p {
+     /* position the text */
+        position: absolute;
+        left: 0px;
+        display: none;
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        height: 50%;
+        top: 50%;
+    }
+    
+    img:hover + p {
+        display: block;
+    }
+    
+    img:hover {
+        opacity: 0.5;
+    }
+
+</style>
+
+    {% if article_list %}
+    <div class="container">
+        {% for article in article_list %}
+        <a href="{% url 'articleapp:detail' pk=article.pk %}">
+            {% include 'snippets/card.html' with article=article %}
+            <!--for에서 쓰인 article과 include에서 쓰인 article가 똑같다.-->
+        </a>
+        {% endfor %}
+    </div>
+    <script src="{% static 'js/magicgrid.js' %}"></script>
+    {% else %}
+    <div class="text-center">
+        <h1>
+            😢 게시물이 없습니다! 😢
+        </h1>
+    </div>
+    {% endif %}
+
+    {% include 'snippets/pagination.html' with page_obj=page_obj %}
+    <!-- 페이지 버튼 만들어 주는것 연결 -->
+
+    <div style="text-align: center">
+        <a href="{% url 'articleapp:create'%}" class="btn btn-dark rounded-pill col-3 mt-3 mb-3">
+            게시글 작성
+        </a>
+    </div>

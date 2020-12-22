@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <div style="text-align: center; max-width: 500px; margin: 4rem auto;">
+        <div class="mb-4"><!--margin-bottom-->
+            <h4>가 입 완 료</h4>
+        </div>
+        
+        <h1>
+            {{ user.username }}
+            {{ user.is_authenticated }}
+            {{ message }}
+        </h1>
+    </div>
+
+{% endblock %}
+    

@@ -1,0 +1,47 @@
+     <div class="BS_header">
+        <div>
+            <h1 class="BS_logo">
+                Minchan Portfolio
+            </h1>
+        </div>
+        <div class="BS_header_navbar">
+            <a href="{% url 'articleapp:list' %}">
+                <span>게시물</span>
+            </a> | 
+            <a href="{% url 'projectapp:list' %}" class="BS_header_nav">
+                <span>프로젝트</span>
+            </a> | 
+            <a href="{% url 'subscribeapp:list' %}" class="BS_header_nav">
+                <span>구독</span>
+            </a> | 
+            {% if not user.is_authenticated %}<!--이 유저가 로그인이 되어있지 않다면. Login을 보여준다.-->
+            {% if '/accounts/create/' == request.path %}
+            <a href="{% url 'accountapp:login' %}?next=/articles/list/" class="BS_header_nav">
+                <span>로그인</span>
+            </a> | 
+            {% else %}
+            {% if '/accounts/login/' == request.path %}
+            <a href="{% url 'accountapp:login' %}?next=/articles/list/" class="BS_header_nav">
+                <span>로그인</span>
+            </a> | 
+            {% else %}
+            <a href="{% url 'accountapp:login' %}?next={{ request.path }}" class="BS_header_nav">
+                <span>로그인</span>
+            </a> | 
+            {% endif %}
+            {% endif %}
+            <a href="{% url 'accountapp:create' %}" class="BS_header_nav">
+                <span>회원가입</span>
+            </a>
+            {% else %}
+            <a href="{% url 'accountapp:detail' pk=user.pk %}" class="BS_header_nav">
+                <!--urls.py에서 detail/<int:pk> 하였기 때문에 pk=user.pk를 통해 pk를 넘겨준다.-->
+                <span>MyPage</span>
+            </a> | 
+            <a href="{% url 'accountapp:logout' %}?next={{ request.path }}" class="BS_header_nav"><!--그대로-->
+                <span>Logout</span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    <hr>

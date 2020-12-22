@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <div style="text-align: center; max-width: 500px; margin: 4rem auto;">
+        <div class="mb-4">
+            <h4>회원정보 수정</h4><hr>
+        </div>
+        <label for="origin-password">ID</label>
+        <div class="form-control">
+           {{ user.username }}
+        </div>
+        <span style="color:red;"><strong>{{ message }}</strong></span>
+        
+        <form action="{% url 'accountapp:update' %}" method="post" style="margin-top: 2rem">
+            <!--action 내부엔 요청을 보내는 url이 필요하다. 여기서는 일원화(어떤 앱에서:어떤 라우팅으로 가라.) 할것이다.-->
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="origin-password">사용하던 패스워드</label>
+              <input type="origin-password" 
+              class="form-control"
+               id="origin-password"
+                placeholder="비밀번호"
+                name= "origin-password">
+                
+            </div>
+            <div class="form-group">
+              <label for="password">새 비밀번호</label>
+              <input type="password" 
+              class="form-control"
+               id="password"
+                placeholder="비밀번호"
+                name= "password">
+            </div>
+            
+            <div class="form-group">
+              <label for="password2">새 비밀번호 확인</label>
+              <input 
+              type= "password" 
+              class="form-control"
+               id="password2"
+                placeholder="비밀번호 확인"
+                name = "password2">
+            </div>
+            <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3">
+        </form>
+    </div>
+
+{% endblock %}

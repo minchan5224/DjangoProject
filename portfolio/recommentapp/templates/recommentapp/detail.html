@@ -1,0 +1,66 @@
+
+
+<style>
+    .hide_show_setting{color:black;margin-bottom:30px}
+    .hide_show_setting button {cursor:pointer;padding:.4rem;border-radius: 10rem; outline:0;box-shadow: 0 0 4px;}
+    .hide_show_setting .blind_view{}
+    .hide_show_setting_view { display:none; }
+</style>
+
+
+<div style="float: left; width: 10%;"> <!--대댓글 화살표-->
+    <h5 class="material-icons" style="border-radius: 10rem; padding: .4rem; margin-top: 1rem; margin-right: 1rem;"><!--subdirectory_arrow_right-->
+    subdirectory_arrow_right
+    </h5>
+</div>
+    
+<div style="text-align: left; padding: 4%; margin: 1rem 0; border-radius: 1rem; float: left; width: 90%;background-color: #e0faf3">
+    {% if recomment.writer == user %}<!--작성자랑 리퀘스트 보낸사람이 같을때-->
+        <div class="recomment_setting_inner" ><!--버튼 생성(누르면 삭제 버튼 나오게)-->
+            <div class="hide_show_setting">
+                <strong style=" text-align: left;">
+                    <a href="{% url 'accountapp:detail' pk=recomment.writer.pk %}">
+                        {% if comment.writer.profile.nickname == "" %}
+                        {{ comment.writer }}
+                        {% else %}
+                        {{ comment.writer.profile.nickname }}
+                        {% endif %}
+                    </a>
+                </strong>
+                <div style="text-align: right; margin: -1.6rem 0">
+                    <a href="#" onclick="SettingFunction('Recomment_Setting_{{recomment.pk}}'); return false;" class="blind_view">
+                        <h6 class="material-icons"><!--버튼 아이콘-->
+                            more_horiz
+                        </h6>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% else %}<!--리퀘스트 보낸게 작성자가 아닐때 닉네임출력-->
+    <div>
+        <strong >
+            <a href="{% url 'accountapp:detail' pk=recomment.writer.pk %}">
+                {% if comment.writer.profile.nickname == "" %}
+                {{ comment.writer }}
+                {% else %}
+                {{ comment.writer.profile.nickname }}
+                {% endif %}
+            </a>
+        </strong>
+    </div>
+    {% endif %}
+    <div style="margin: 1rem 1rem; word-wrap:break-word;"><!--댓글 내용 출력-->
+        {{ recomment.content|linebreaksbr }}
+    </div>
+    <div>
+        <h6 style="text-align: right; font-size: 0.8em;"><!--작성일-->
+            {{ recomment.create_at }}
+        </h6>
+        <div class="hide_show_setting_view" id="Recomment_Setting_{{recomment.pk}}" style="text-align: right;"><!--위에서 버튼 눌렀을때 숨겨져있던 버튼이 보여지는 부분-->
+            <a href="{% url 'recommentapp:delete' pk=recomment.pk %}"class="btn btn-outline-danger rounded-pill" style="font-size: 0.8em;">
+                삭제
+            </a>
+        </div>
+    </div>
+
+</div>

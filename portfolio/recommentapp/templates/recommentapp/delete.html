@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+
+
+{% block content %}
+
+    <div style="text-align: center; max-width: 500px; margin: 4rem auto; word-wrap:break-word;">
+        <div>
+            <h4>댓글 삭제</h4>
+        </div>
+        <div style="border: 1px solid; text-align: left; padding: 4%; margin: 1rem 0; border-radius: 1rem; border-color: #bbb; float: left; width: 100%;">
+            {{ target_comment.content }}
+            <h6 style="text-align: right; font-size: small; margin-top: 1rem;">
+                {{ target_comment.create_at }}
+            </h6>
+        </div>
+        <form action="{% url 'recommentapp:delete' pk=target_comment.pk %}" method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger rounded-pill col-6 mt-3">
+            <input type="hidden" name="article_pk" value="{{ target_comment.article.pk }}">
+        </form>
+    </div>
+    
+{% endblock %}

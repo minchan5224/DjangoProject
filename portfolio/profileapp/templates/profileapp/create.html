@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <div style="text-align: center; max-width: 500px; margin: 4rem auto;">
+        <div class="mb-4"><!--margin-bottom-->
+            <h4>프로필 작성</h4>
+        </div>
+        <form action="{% url 'profileapp:create' %}" method="post" enctype="multipart/form-data">
+            <!--image 파일과 같은 파일을 post할땐 enctype="multipart/form-data" 를 명시해 주어야 한다.-->
+            {% csrf_token %}
+            {% bootstrap_form form %}<!-- views.py 에서 이용한 form_class = UserCreationForm 을 통해 자동으로 만들어준다. -->
+              <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3">
+        </form>
+    </div>
+
+{% endblock %}

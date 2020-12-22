@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <div style="text-align: center; max-width: 500px; margin: 4rem auto;">
+        {% if target_user.is_superuser %}
+        <h2>
+            관리자
+        </h2>
+        {% endif %}
+        
+        {% if target_user.profile %}<!--proifle이 있다면 시작-->
+        
+        <img src="{{ target_user.profile.image.url }}" alt="" style="height: 12rem; width: 12rem; border-radius: 20rem; margin-bottom: 2rem;  object-fit: cover;">
+        
+        <div style="text-align: center; margin-top: 1rem;">
+            {{ target_user.profile.nickname }}
+            {% if target_user == user %}<!--로그인한 사람과 프로필 소유자가 같은지 검증 시작-->
+            <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}" style="margin-left: 0.5rem;">
+                📝
+            </a>
+            {% endif %}<!--로그인한 사람과 프로필 소유자가 같은지 검증 끝-->
+        </div>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+                {{ target_user.profile.message }}
+        </div>
+        
+        {% else %}<!--proifle이 없다면 시작-->
+        
+        <h2>
+            프로필 미설정
+        </h2>
+        
+        {% if target_user == user %}<!--로그인한 사람과 프로필 소유자가 같은지 검증 시작-->
+        
+        <div style="margin-top: 4rem;">
+            <a href="{% url 'profileapp:create' %}" class="btn btn-outline-primary rounded-pill col-6">
+                <h5>
+                    프로필 작성하러 가기
+                </h5>
+            </a>
+        </div>
+        
+        {% endif %}<!--로그인한 사람과 프로필 소유자가 같은지 검증 끝-->
+        {% endif %}
+        
+        <div style="margin-top: 3rem; margin-bottom: 5rem;">
+            {% if target_user == user %}
+            <a class="material-icons" style="box-shadow: 0 0 4px #ccc; border-radius: 10rem; padding: .4rem;" href="{% url 'accountapp:update' %}">
+                settings
+            </a><!--계정 설정 버튼 보여줌-->
+            <a class="material-icons" style="box-shadow: 0 0 4px red; border-radius: 10rem; padding: .4rem;" href="{% url 'accountapp:delete' pk=user.pk %}">
+                cancel
+            </a>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div>
+        {% include 'snippets/list_bs.html' with article_list=object_list %}
+    </div>
+
+{% endblock %}

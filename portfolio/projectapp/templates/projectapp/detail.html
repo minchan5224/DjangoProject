@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<style>
+    .project_setting{color:black;margin-bottom:30px}
+    .project_setting button {cursor:pointer;padding:.4rem;border-radius: 10rem; outline:0;box-shadow: 0 0 4px;}
+    .project_setting .blind_view{font-size:1.5em}
+    .project_view { display:none; }
+</style>
+
+    <div>
+        <div style="text-align: center; max-width: 500px; margin: 4rem auto 1.5rem auto;">
+            
+            {% if user.is_superuser %}
+            <div class="project_setting_inner"style="text-align: right;">
+                <div class="project_setting" style=" margin-top: 1rem;">
+                    <a href="#" onclick="SettingFunction('Project_Setting_{{target_project.pk}}'); return false;">
+                        <h6 class="material-icons" style="font-size: large; box-shadow: 0 0 4px #ccc; border-radius: 10rem; padding: .4rem;">
+                            more_vert
+                        </h6>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+            
+            <img src="{{ target_project.image.url }}" alt="" style="height: 12rem; width: 12rem; border-radius: 20rem; margin-bottom: 2rem; object-fit: cover; margin-top: -3rem;">
+            
+            <div class="project_view" id="Project_Setting_{{target_project.pk}}" style="text-align: right;">
+                    <a >
+                        프로젝트 수정
+                    </a>
+                    <a href="{% url 'projectapp:delete' pk=target_project.pk %}" class="btn btn-outline-danger rounded-pill col-1.5 mt-2 mb-2">
+                        프로젝트 삭제
+                    </a>
+            </div>
+            <h2 style="margin-top: 2rem;">
+                {{ target_project.title }}
+            </h2>
+            <h5 style="margin-top: 1rem;">
+                {{ target_project.description }}
+            </h5>
+        </div>
+        <div class="text-center mb-5">
+            {% if user.is_authenticated %}
+                {% if not subscription %}
+                <a href="{% url 'subscribeapp:subscribe' %}?project_pk={{ target_project.pk }}"
+                   class="btn btn-outline-primary rounded-pill px-4">
+                    Subscribe
+                </a>
+                {% else %}
+                <a href="{% url 'subscribeapp:subscribe' %}?project_pk={{ target_project.pk }}"
+                   class="btn btn-outline-dark rounded-pill px-4">
+                    Unsubscribe
+                </a>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div>
+            {% include 'snippets/list_bs.html' with article_list=object_list %}
+        </div>
+        
+    </div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <div style="text-align: center; max-width: 500px; margin: 4rem auto;">
+        <div>
+            <h4>Login</h4>
+        </div>
+        <form action="" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <input type="submit" class="btn btn-dark rounded-pill col-6 mt-3">
+            <!--rounded-pill는 버튼의 외형을 동글동글한 걸로 바꿈(클래스) col-6 은 부모의 크기의 절반(12가 최대이며 100%를 뜻함) mt-3은 margin-top의 3배라는 뜻-->
+        </form>
+    </div>
+
+{% endblock %}

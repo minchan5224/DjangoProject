@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+
+{% block content %}
+<style>
+    img {
+        opacity: 1.0;
+    }
+    
+    h2 {
+     /* position the text */
+        position: absolute;
+        left: 0px;
+        display: none;
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        height: 65%;
+        top: 65%;
+    }
+    
+    img:hover + h2 {
+        display: block;
+    }
+    
+    img:hover {
+        opacity: 0.5;
+    }
+
+</style>
+
+<style>
+    .articl_setting{color:black;margin-bottom:30px}
+    .articl_setting button {cursor:pointer;padding:.4rem;border-radius: 10rem; outline:0;box-shadow: 0 0 4px;}
+    .articl_setting .blind_view{font-size:1.5em}
+    .articl_view { display:none; }
+</style>
+    <div>
+        <div style="text-align: center; max-width: 500px; margin: 2rem auto;">
+            <h1>
+                {{ target_article.title }}
+            </h1>
+            <div style=" margin-top: 2rem">
+                <h6 style="text-align: right; font-size: small;">
+                    {{ target_article.created_at }}
+                </h6>
+            </div>
+            
+            <div class="articl_setting_inner"style="text-align: right;">
+                <div class="articl_setting" style="text-align: right; margin-top: 1rem;">
+                    <a href="{% url 'accountapp:detail' pk=target_article.writer.pk %}">
+                    {{ target_article.writer.profile.nickname }} 
+                    </a>
+                    {% if target_article.writer == user %}
+                    <a href="#" onclick="SettingFunction('Article_Setting_{{target_article.pk}}'); return false;">
+                        <h6 class="material-icons" style="font-size: medium; box-shadow: 0 0 4px #ccc; border-radius: 10rem; padding: .4rem;">
+                            more_vert
+                        </h6>
+                    </a>
+                    {% endif %}
+                </div>
+                <div class="articl_view" id="Article_Setting_{{target_article.pk}}" style="text-align: right;">
+                    <a href="{% url 'articleapp:update' pk=target_article.pk %}" class="btn btn-outline-primary rounded-pill col-2.3" style="font-size: small;">
+                        게시물 수정
+                    </a>
+                    <a href="{% url 'articleapp:delete' pk=target_article.pk %}" class="btn btn-outline-danger rounded-pill col-2.3" style="font-size: small;">
+                        게시물 삭제
+                    </a>
+                </div>
+            </div>
+            <div style="margin-top: 2rem;">
+                <a href="{{ target_article.image.url }}" target="_blank">
+                    <img style="width:100%; border-radius: 1rem; margin: 2rem 0" src="{{ target_article.image.url }}" alt="">
+                    <h2>
+                        <strong>
+                            원본을 보려면 클릭 하세요.
+                        </strong>
+                    </h2>
+                </a>
+            </div>
+            <div style="text-align: right;">
+                ❤  :  {{target_article.article_like.count}}  👎  :  {{target_article.article_Unlike.count}}
+            </div>
+            
+            <div style="text-align: left; margin-top: 1rem;">
+                <p>
+                    {{ target_article.content | safe }}
+                </p>
+            </div>
+            
+            <div class="text-right mb-5">
+            {% if user.is_authenticated %}
+                {% if not articlelike %}<!--좋아요 안했을 때.-->
+                <a href="{% url 'articlelikeapp:like' %}?article_pk={{ target_article.pk }}"
+                   class="btn btn-outline-danger rounded-pill px-4"><!--구독 하기-->
+                    ❤
+                </a>
+                {% else %}<!--좋아요 했을 때.-->
+                <a href="{% url 'articlelikeapp:like' %}?article_pk={{ target_article.pk }}"
+                   class="btn btn-outline-dark rounded-pill px-4"><!--구독 취소-->
+                    🖤
+                </a>
+                {% endif %}
+                
+                {% if not articleunlike %}<!--싫어요 안했을 때.-->
+                <a href="{% url 'articlelikeapp:unlike' %}?article_pk={{ target_article.pk }}"
+                   class="btn btn-outline-danger rounded-pill px-4"><!--구독 하기-->
+                    👎
+                </a>
+                {% else %}<!--싫어요 했을 때.-->
+                <a href="{% url 'articlelikeapp:unlike' %}?article_pk={{ target_article.pk }}"
+                   class="btn btn-outline-dark rounded-pill px-4"><!--구독 취소-->
+                    👊
+                </a>
+                {% endif %}
+            {% endif %}
+            </div>
+            <div>
+
+                {% if user.pk.profile.nickname == "" %}
+                ☹  프로필을 작성하지 않았습니다.  ☹<br>
+                댓글 작성자가 ID로 설정됩니다.
+            {% endif %}
+            </div>
+            
+            <div style="text-align: left; padding: 4%; margin: 2rem 0; border-radius: 1rem; background-color: #f6fefc; font-size: 1em;">
+                
+                {% if target_article.comment.count == 0 %}
+                        첫 댓글을 작성하세요!
+                {% else %}
+                <!--target_article.comment.all = target_article에 외래키로 연결되어 있는 댓글을 전부 가져온다.-->
+                {% include 'commentapp/detail.html' with comments=target_article.comment.all commentlike=commentlike commentunlike=commentunlike%}
+                <!--안에 있는 article을 현재 있는target_article과 동기화 시킨다.-->
+                {% endif %}
+                {% include 'commentapp/create.html' with article=target_article %}
+                
+            </div>            
+        </div>
+    </div>
+
+{% endblock %}

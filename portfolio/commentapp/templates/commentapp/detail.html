@@ -1,0 +1,102 @@
+<!--버튼 클릭시 보이기 숨기기 기능 구현.-->
+<script>
+function RecommentFunction(idMyDiv){
+    var objDiv = document.getElementById(idMyDiv);
+    if(objDiv.style.display=="block"){
+        objDiv.style.display = "none";
+        ButtonSetting.innerHTML = "댓글 더보기";
+
+    }
+    else{
+        objDiv.style.display = "block";
+        ButtonSetting.innerHTML = "댓글 접기";
+    }
+}
+
+</script>
+
+<style>
+    .comment_setting{color:black;margin-bottom:30px}
+    .comment_setting button {cursor:pointer;padding:.4rem;border-radius: 10rem; outline:0;box-shadow: 0 0 4px;}
+    .comment_setting .blind_view{}
+    .comment_setting_view { display:none; }
+</style>
+
+{% for comment in comments %}
+
+    <div style=" padding: 4%; margin: 1rem 0; border-radius: 1rem; background-color: #edfcf8">
+        {% if  comment.writer == user %}<!--작성자랑 리퀘스트 보낸사람이 같을때-->
+        <div class="comment_setting_inner" ><!--버튼 생성(누르면 삭제 버튼 나오게)-->
+            <div class="comment_setting">
+                <strong style=" text-align: left;">
+                    <a href="{% url 'accountapp:detail' pk=comment.writer.pk %}">
+                        {% if comment.writer.profile.nickname == "" %}
+                        {{ comment.writer }}
+                        {% else %}
+                        {{ comment.writer.profile.nickname }}
+                        {% endif %}
+                    </a>
+                </strong>
+                <div style="text-align: right; margin: -1.6rem 0">
+                    <a href="#" onclick="SettingFunction('Comment_Setting_{{comment.pk}}'); return false;" class="blind_view">
+                        <h6 class="material-icons"><!--버튼 아이콘-->
+                            more_horiz
+                        </h6>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}<!--리퀘스트 보낸게 작성자가 아닐때 닉네임출력-->
+            <strong style=" text-align: left;">
+                <a href="{% url 'accountapp:detail' pk=comment.writer.pk %}">
+                    {% if comment.writer.profile.nickname == "" %}
+                    {{ comment.writer }}
+                    {% else %}
+                    {{ comment.writer.profile.nickname }}
+                    {% endif %}
+                    
+                </a>
+            </strong>
+        {% endif %}
+        <div style="margin: 1rem 1rem; word-wrap:break-word; "><!--댓글 내용 출력-->
+            {{ comment.content|linebreaksbr }}
+        </div>
+        <div style="text-align: right; font-size: small;"><!--작성일-->
+            <h6 style="font-size: small;">
+                {{ comment.create_at }}
+                
+            </h6>
+            
+            <div class="comment_setting_view" id="Comment_Setting_{{comment.pk}}"><!--위에서 버튼 눌렀을때 숨겨져있던 버튼이 보여지는 부분-->
+                <a href="{% url 'commentapp:delete' pk=comment.pk %}"class="btn btn-outline-danger rounded-pill" style="font-size: small;">
+                    삭제
+                </a>
+            </div>
+        </div>
+        {% if comment.recomment.count != 0 %}<!--대댓글이 있다면. 실행-->
+            <div class="recomment_view_setting_inner" ><!--버튼 보이기 감추기 구현-->
+                <div class="hide_show_setting"><!--대댓글이 있다면 더보기 버튼 활성화. 누르면 대댓글 나옴-->
+                    <a href="#" onclick="RecommentFunction('Recomment_{{comment.pk}}'); return false;" id="ButtonSetting" style="font-size: 0.6em; text-decoration:underline;">
+                        댓글 더보기
+                    </a>
+                </div>
+                <div class="hide_show_setting_view" id="Recomment_{{comment.pk}}" style="text-align: right; font-size: 0.8em;"><!--대댓글가져오는 부분-->
+                    <div style="margin-top: -3rem;">
+                        {% for recomment in comment.recomment.all %}
+                        <!--target_article.comment.all = target_article에 외래키로 연결되어 있는 댓글을 전부 가져온다.-->
+                        {% include 'recommentapp/detail.html' with recomment=recomment %}
+                        {% endfor %}
+                        <!--안에 있는 article을 현재 있는target_article과 동기화 시킨다.-->
+                        {% include 'recommentapp/create.html' with article=target_comment %}
+                    </div>
+                </div>
+            </div>
+        
+
+        {% else %}
+            {% include 'recommentapp/create.html' with article=target_comment %}
+            
+        {% endif %}
+        
+    </div>
+{% endfor %}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+{% include 'head.html' %}
+
+<body style="background-color: #f5feff">
+    <!--버튼 클릭시 보이기 숨기기 기능 구현.-->
+    <script>
+    function SettingFunction(idMyDiv){
+        var objDiv = document.getElementById(idMyDiv);
+        if(objDiv.style.display=="block"){ objDiv.style.display = "none"; }
+        else{ objDiv.style.display = "block"; }
+    }
+    </script>
+    
+
+    
+    
+    {% include 'header.html' %}
+    
+    {% block content %}
+    {% endblock %}
+
+    {% include 'footer.html' %}
+    
+</body>
+</html>

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if article_list.count == 0 %}
+    <div class="text-center">
+        <h1>
+            😢 게시물이 없습니다. 😢
+            <br>
+            <br>
+            <br>
+        </h1>
+    </div>
+    {%else%}
+    <div>
+        {% include 'snippets/list_bs.html' with article_list=article_list %}
+    </div>
+    {%endif%}
+{% endblock %}
