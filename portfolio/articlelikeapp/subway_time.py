@@ -365,10 +365,6 @@ def main_service(u_content, KST):
     if u_sub_name == '명령어':
         help_text = simpletext("\"역이름\" 으로 검색\n예 : \"정자역\"\n\n\"역이름/노선이름\" 으로 검색\n예 : \"정자역/분당선\"\n\n출처 보기는 \"출처\"로 검색\n예 : \"출처\" ")
         dataSend = help_text
-    elif u_sub_name == '쏘니':
-        dataSend = simpletext('김소연밥오')
-    elif u_sub_name == '으니':
-        dataSend = simpletext('♥')
     elif u_sub_name == '출처':
         dataSend = simpletext('모든 정보는 공공데이터 포털의 오픈API인 지하철정보서비스를 사용하였습니다.\n정보 제공 기관 : 국토교통부\n출처 URL : https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15056904')
     else :
