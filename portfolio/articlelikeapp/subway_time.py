@@ -9,7 +9,7 @@ h_day = "%m/%d"
 
 u_key_decode = '안알랴줌' #디코딩 해둔 키값
 
-server_issue = ''
+server_issue = '현재 제공하는 시간표와 실제 운행하는 시간표가 동일하지 않아 1~3분가량 차이가 발생하여 최신화를 요청하였으며 2020년 말까지 완료한다는 답변을 받았습니다.\n주기적으로 확인하며 공지드리겠습니다.'
 # 안쓸때는 ''로 수정하면 댐.
 issue_send = {"simpleText": {"text": server_issue}}
 
@@ -71,7 +71,7 @@ def timetable_msg(s_name, s_line, KST):
 
         if u_text[:3] == '이미지':
             print(u_text[3:])
-            img_u = 'https://subway-timetable.run.goorm.io/static/image/migeum_'
+            img_u = 'https://portfolio-min.run.goorm.io/media/subway/migeum_'
             if u_text[3:] == '01':
                 img_u+="d.JPG"
                 day_t='평일'
