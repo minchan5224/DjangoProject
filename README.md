@@ -19,3 +19,9 @@
 > 5. [Django프로젝트 "05" (구독, 프로젝트, 지하철aip이식)](https://github.com/minchan5224/TIL/blob/main/Python/Django/Django_28.md)
 >
 > 6. [Django프로젝트 "06" (이미지 클릭(원본 이미지),지하철aip이식, 버그 수정)](https://github.com/minchan5224/TIL/blob/main/Python/Django/Django_29.md)
+
+---
+#### 12/25
+> 미금역 신분당선 검색시 전송할 이미지 폴더와 이미지 생성, url지정
+>
+> subway_time.py 내용 수정.
