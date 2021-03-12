@@ -265,7 +265,8 @@ def sub_time(u_key, subway_code, upDTCode, KST): #지하철 시간표 검색 함
         response_body = request.urlopen(requ).read()
         soup = (BeautifulSoup(response_body, 'html.parser'))
         if str(soup) == '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><response><header><resultcode>00</resultcode><resultmsg>NORMAL SERVICE.</resultmsg></header><body><items></items><numofrows>10</numofrows><pageno>1</pageno><totalcount>0</totalcount></body></response>':
-            return ['인증 코드 오류(UnD, SubCod)']
+            return [time_list[0], '출발역이 종점입니다.']
+#             return ['인증 코드 오류(UnD, SubCod)'] 공공데이터 포털의 데이터제공 형식 변화로 수정
 
         for item in soup.findAll('item'):
             if int(item.deptime.string) > int(real_time):
